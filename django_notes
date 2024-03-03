@@ -6,7 +6,7 @@
 #    By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/03 02:59:57 by bel-oirg          #+#    #+#              #
-#    Updated: 2024/03/03 21:01:22 by bel-oirg         ###   ########.fr        #
+#    Updated: 2024/03/04 00:33:24 by bel-oirg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,6 +121,23 @@ for example
 	class Room(models.Model)
 		name = models.Charfield(max_Lenght=200)
 		description = model.TextField(null=True) //it can be blink
-		
+
+Charfield, TextField ..called attributes
 in this case the db.table is Room and name, desc are cols inside it 
 when we add a models we should add migrations
+
+python manage.py makemigration
+python manage.py migrate 
+
+---now to manage the db we need a superuser
+python manage.py createsuperuser
+
+->to make the room table visible inside the admin
+in admin.py add
+from .models import Room
+
+admin.site.regiter(Room)
+---
+
+-->to request a query from db
+var_hold_query = Model_name.object.all() || .get() || .exclude() || .filter()

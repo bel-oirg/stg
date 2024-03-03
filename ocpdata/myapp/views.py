@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Room
 
 # Create your views here.
 
@@ -9,4 +10,5 @@ people = [
 ]
 
 def home_page(request):
+	people = Room.objects.all()
 	return (render(request, 'home.html', {'people' : people}))
