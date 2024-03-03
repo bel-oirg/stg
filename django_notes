@@ -1,0 +1,126 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    django_notes                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: bel-oirg <bel-oirg@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/03/03 02:59:57 by bel-oirg          #+#    #+#              #
+#    Updated: 2024/03/03 21:01:22 by bel-oirg         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+django-admin startproject DIR
+cd DIR 
+python manage.py runserver ///the srv in on
+
+inside DIR
+	manage.py //used to execute the commands
+	settings.py //all the core projects configs are here
+	urls.py //all the routings are here
+
+inside settings.py
+	DATABASE SECTION
+	we have db.sqlite3 inside this section by default
+
+	INSTALLED_APPS
+	all the apps (authentication, sessions, admin..)
+	every section of the webapp is an app
+
+python startapp base_app
+	this will create an app for us
+
+to connect the app with the project you should add it on INSTALLED APPS
+
+----SIMPLE EXEMAPLE
+inside views 
+from django.http import HttpResponse
+
+def home(request):
+	return HttpResponse('This is HOMEPAGE')
+The function home is called a view
+
+inside urls.py and inside urlpatterns section, add
+path('', home),
+------------------END EXAMPLE
+
+-----------about URLS apps and project
+create urls.py inside the app dir 
+	set the paths...
+
+//import include.. like path
+inside urls.py
+	path('', import appdir.urls)
+----------END ABOUT
+
+--------------about TEMPLATES
+add dir called template in the BASE_DIR
+	project/setting add inside DIRS
+	BASE_DIR / 'TEMPLATES'
+
+and now add inside the views
+	home ft for EXEMAPLE
+	return (reneder(request, 'home.html'))
+
+to an file.html inside another one 
+{% include 'file.html' %}
+
+----to add a block for examples main_template.html
+inside main_template
+	{% include 'nav_bar.html' %}
+	{% include 'search.html' %}
+	
+	{% block content %}
+	
+	
+	{% endblock %}
+----
+
+and include inside the file--
+{% extends "main_template.html" %}
+
+{% block content %}
+	YOUR CONTENT
+{% endblock content %}----
+
+---TAGS
+
+for example inside views we can add variable and pass it inside the html
+
+people = [
+	{'id':1, 'salary':12000},
+	{'id':2, 'salary':10000}
+]
+
+to pass it to a function (to make it accessible :)
+def home(request)
+	return render(request, 'home.html', 'people': people)
+
+inside home.html
+
+{% for p in people %}
+	<ul>
+		<li>{{ p }}</li>
+	</ul>
+{% endfor %}
+
+------END TEMPLATES
+
+------DB
+
+when your run srv you will see "Err 18 migrations are not applied ..."
+
+by default we have migrations for auth, msgs, sessions ..
+
+python manage.py migrate /// build the DATABASE, to fix "Err "
+
+in the app -> models.py we will add the models of the DB
+we will create py classes to represent tables 
+for example
+	from django.db import models
+	class Room(models.Model)
+		name = models.Charfield(max_Lenght=200)
+		description = model.TextField(null=True) //it can be blink
+		
+in this case the db.table is Room and name, desc are cols inside it 
+when we add a models we should add migrations
